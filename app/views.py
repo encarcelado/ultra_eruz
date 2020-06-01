@@ -12,6 +12,8 @@ from .models import EruzMember
 from .models import NalogCodes
 from .models import Okved2020
 from .models import BossPerson
+from .models import DjangoUserLimit
+
 # from .models import AuthUser
 # from .serializers import AuthUserSerializer
 # from rest_framework import viewsets
@@ -52,10 +54,68 @@ bossPerson = ""
 current_user_email = ""
 current_user_bitrix_id = ""
 generalRequest = ""
+showleads = ""
 
 # class AuthUserView(viewsets.ModelViewSet):
 #     queryset = AuthUser.objects.all()
 #     serializer_class = AuthUserSerializer
+
+
+def UserLimit(current_user_email):
+    import datetime
+    lead_count = 0
+    this_user_info = ""
+
+    # this functions disallows user to obtain leads in case he already had 50 today
+    # when button to get leads is pressed, DB is checked if the current user is present in the django_user_limit table
+    # if no, the user is created
+    # otherwise the date is checked
+    # if the date exists and it's today - the number is checked
+    # if the number exists and it's less than 50 - it's incremented
+    # if date is not today, the date is updated to today and the count starts from 1
+    today = datetime.date.today()
+    today = str(today)
+    print(today)
+
+    # today = datetime.date.today()
+    #
+    # today = today.strftime("%d.%m.%Y")
+    # today = str(today)
+    try:
+        this_user_info = DjangoUserLimit.objects.get(email=current_user_email)
+        # print(this_user_info.email)
+
+    except:
+        lead_count = 1
+        p = DjangoUserLimit.objects.create(email=current_user_email, get_lead_date=today, lead_count=lead_count)
+        p.save(force_insert=True)
+        return lead_count
+    try:
+        if this_user_info.get_lead_date == today:
+            # print(this_user_info.lead_count)
+            count = int(this_user_info.lead_count) + 1
+            this_user_info.lead_count = count
+            this_user_info.save()
+            # print(count)
+            return count
+        else:
+            this_user_info.get_lead_date = today
+            this_user_info.lead_count = 1
+            this_user_info.save()
+            count = 1
+            return count
+    except:
+        return lead_count
+
+
+
+
+    # if not this_user_info:
+    #     lead_count = 1
+    #     p = DjangoUserLimit.objects.create(email=current_user_email, get_lead_date=today, lead_count=lead_count)
+    #     p.save(force_insert=True)
+    # print
+    # return lead_count
 
 @login_required(login_url="/login/")
 def index(request):
@@ -85,7 +145,9 @@ def index(request):
     global current_user_email
     global generalRequest
     global current_user_bitrix_id
+    global showleads
     leadId = ""
+    user_limit_warning = ""
     newBitrixLeadObject = ""
     current_user_email = request.user.email
 
@@ -143,6 +205,8 @@ def index(request):
                 phone = ""
                 cell = ""
                 email = ""
+                showleads = ""
+
 
                 eruzMembers = EruzMember.objects.filter(Q(nalog_codes_id__nalog_region__icontains=generalRequest) |
                                                         Q(nalog_codes_id__nalog_city__icontains=generalRequest) |
@@ -180,6 +244,17 @@ def index(request):
             # AddBitrixLeadToCurrentUser(leadId, current_user_bitrix_id)
         except:
             pass
+
+        if leadId:
+            user_limit_warning = ""
+            user_limit = UserLimit(current_user_email)
+            print("Проверка " + str(user_limit))
+            if user_limit >= 19:
+                leadId = ""
+                user_limit_warning = "Вы превысили лимит присвоения лидов на сегодня"
+            else:
+                user_limit_warning = ""
+
         if leadId:
             AddBitrixLeadToCurrentUser(leadId, current_user_bitrix_id)
             # newBitrixLeadObject = AddBitrixLeadToCurrentUser(leadId, current_user_bitrix_id)
@@ -281,6 +356,17 @@ def index(request):
         except:
             pass
 
+
+        try:
+            showleads = request.POST('showleads')
+            if showleads == "Все":
+                showleads = ""
+
+        except:
+            pass
+
+
+
         eruzMembers = EruzMember.objects.all().filter(nalog_codes_id__nalog_region__contains=region,
                                                       nalog_codes_id__nalog_city__contains=gorod, main_okved__startswith=okved,
                                                       boss_person_id__l_name__icontains=bossname,
@@ -301,7 +387,7 @@ def index(request):
 
         return render(request, "index.html", {'eruzMember': eruzMember, 'eruzMembers': eruzMembers, 'nalogCodes': nalogCodes, 'nalogCodes2': nalogCodes2, 'okved2020': okved2020,
                                               'region': region, 'gorod': gorod, 'okved': okved, 'companyname': companyname, 'bossname': bossname, 'inn': inntotal,
-                                              'phone': phonetotal, 'email': email, 'bossPerson': bossPerson, 'newBitrixLeadObject': newBitrixLeadObject, })
+                                              'phone': phonetotal, 'email': email, 'bossPerson': bossPerson, 'newBitrixLeadObject': newBitrixLeadObject, 'user_limit_warning': user_limit_warning,})
 
 
 
@@ -345,7 +431,7 @@ def index(request):
 
         return render(request, "index.html", {'eruzMember': eruzMember, 'eruzMembers': eruzMembers, 'nalogCodes': nalogCodes, 'nalogCodes2': nalogCodes2, 'okved2020': okved2020,
                                               'region': region, 'gorod': gorod, 'okved': okved, 'companyname': companyname, 'bossname': bossname, 'inn': inntotal,
-                                              'phone': phonetotal, 'email': email, 'bossPerson': bossPerson, 'newBitrixLeadObject': newBitrixLeadObject, })
+                                              'phone': phonetotal, 'email': email, 'bossPerson': bossPerson, 'newBitrixLeadObject': newBitrixLeadObject, 'user_limit_warning': user_limit_warning,})
 
 
 

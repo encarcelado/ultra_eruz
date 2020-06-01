@@ -49,6 +49,8 @@ class AuthUser(models.Model):
     is_staff = models.IntegerField()
     is_active = models.IntegerField()
     date_joined = models.DateTimeField()
+    # get_lead_date = models.CharField(max_length=10)
+    # lead_count = models.IntegerField()
 
     class Meta:
         managed = False
@@ -73,6 +75,17 @@ class AuthUserUserPermissions(models.Model):
         managed = False
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
+
+class DjangoUserLimit(models.Model):
+    id = models.AutoField(primary_key=True)
+    email = models.CharField(max_length=100)
+    get_lead_date = models.CharField(max_length=20)
+    lead_count = models.IntegerField()
+
+
+    class Meta:
+        managed = False
+        db_table = 'django_user_limit'
 
 
 class BossPerson(models.Model):
