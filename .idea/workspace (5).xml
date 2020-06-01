@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="407447c2-e9e9-4b0b-96ed-92088fb6a0d7" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>myrec</find>
+      <find>filter</find>
+      <find>print</find>
+      <find>current_user_bitrix_id</find>
+      <find>company</find>
+      <find>click</find>
+      <find>button</find>
+      <find>addBit</find>
+      <find>return</find>
+      <find>mailto</find>
+      <find>modal</find>
+      <find>ASSIGNED</find>
+      <find>newBitrix</find>
+      <find>request.user.email</find>
+      <find>current_user_email</find>
+      <find>BitrixAPI</find>
+      <find>manager_lasa</find>
+      <find>ФНС</find>
+      <find>main_okved_desc</find>
+      <find>hidden</find>
+      <find>строки</find>
+      <find>manager_name</find>
+      <find>csrf</find>
+      <find>csr</find>
+      <find>form</find>
+      <find>всего стра</find>
+      <find>всего страниц</find>
+      <find>sidebar</find>
+      <find>newBItrixLeadObject</find>
+      <find>pages</find>
+    </findStrings>
+  </component>
+  <component name="ProjectId" id="1c09S36o9zX2aDcD6JTvovz6eUG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="H:\YandexDisk\venv3\ultra_eruz\core\static\assets\css" />
+      <recent name="H:\YandexDisk\venv3\ultra_eruz\core\static\assets\lib\bootstrap\dist\js" />
+      <recent name="H:\YandexDisk\venv3\steroid_eruz\core\static\assets\img" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="H:\YandexDisk\venv3\steroid_eruz\core\templates\pages" />
+      <recent name="H:\YandexDisk\venv3\steroid_eruz\core\templates\layouts" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.manage">
+    <configuration name="bitrix24" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="steroid_eruz" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/bitrix24.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="manage" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="steroid_eruz" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="D:\YandexDisk\venv3\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/manage.py" />
+      <option name="PARAMETERS" value="runserver" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.manage" />
+        <item itemvalue="Python.bitrix24" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="407447c2-e9e9-4b0b-96ed-92088fb6a0d7" name="Default Changelist" comment="" />
+      <created>1586547798097</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586547798097</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.css" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="679" y="135" key="#manage" timestamp="1590096383037">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="679" y="135" key="#manage/-1600.383.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1590096383037" />
+    <state x="694" y="282" key="EnvironmentVariablesDialog" timestamp="1590096116209">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="694" y="282" key="EnvironmentVariablesDialog/-1600.383.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1590096116209" />
+    <state x="739" y="275" key="FileChooserDialogImpl" timestamp="1590096328968">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="739" y="275" key="FileChooserDialogImpl/-1600.383.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1590096328968" />
+    <state width="1899" height="71" key="GridCell.Tab.0.bottom" timestamp="1590096496828">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="71" key="GridCell.Tab.0.bottom/-1600.383.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1590096496828" />
+    <state width="1899" height="71" key="GridCell.Tab.0.center" timestamp="1590096496828">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="71" key="GridCell.Tab.0.center/-1600.383.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1590096496828" />
+    <state width="1899" height="71" key="GridCell.Tab.0.left" timestamp="1590096496828">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="71" key="GridCell.Tab.0.left/-1600.383.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1590096496828" />
+    <state width="1899" height="71" key="GridCell.Tab.0.right" timestamp="1590096496828">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="71" key="GridCell.Tab.0.right/-1600.383.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1590096496828" />
+    <state x="461" y="163" key="SettingsEditor" timestamp="1590096471772">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="163" key="SettingsEditor/-1600.383.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1590096471772" />
+    <state x="2576" y="-48" key="com.intellij.ide.util.TipDialog" timestamp="1589915218228">
+      <screen x="1920" y="-393" width="1920" height="1040" />
+    </state>
+    <state x="2576" y="-48" key="com.intellij.ide.util.TipDialog/0.0.1536.824/1920.-393.1920.1040@1920.-393.1920.1040" timestamp="1589915218228" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app/models.py</url>
+          <line>202</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app/models.py</url>
+          <line>213</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app/views.py</url>
+          <line>6</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
