@@ -1,0 +1,818 @@
+{% extends "layouts/base-site.html" %}
+
+{% block title %} Ультра ЕРУЗ {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+
+
+<h2 class="page-title">Все участники закупок <span class="fw-semi-bold">РФ</span></h2> <p>Всего в базе <span class="fw-semi-bold">{{ eruzMember.id }}</span> записей организаций и <span class="fw-semi-bold">{{ bossPerson.id }}</span> их руководителей</p>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="widget">
+                <header>
+                    <h4>
+                         Страница {{ eruzMembers.number }} из {{ eruzMembers.paginator.num_pages }}
+                    </h4>
+
+
+                    <div class="widget-controls">
+
+                        <form action="{% url 'home' %}" method="POST">
+                            {% csrf_token %}
+                                            <select class="selectpicker" data-style="btn-transparent btn-sm2" data-width="100px" title="Строки" name="recordsperpage" onchange="recordsperpage.form.submit()">
+                                                    <option>10</option>
+                                                    <option>25</option>
+                                                    <option>50</option>
+                                            </select>
+
+
+
+                        </form>
+                    </div>
+
+
+
+
+
+
+
+
+                </header>
+                <div class="body">
+
+                    <div class="container">
+                        <div class="row">
+                            <div class=""col-md-12">
+                            <div class="modal fade" id="addLead">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header"><h1>Title</h1></div>
+                                        <div class="modal-body">This is body {{ newBitrixLeadObject.id }}</div>
+                                        <div class="modal-footer"><button class="btn btn-transparent" data-dismiss="modal">Закрыть</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="hidden-xs">№</th>
+                            <th>Организация</th>
+                            <th>Руководитель</th>
+                            <th class="hidden-xs">Контакты</th>
+                            <th class="hidden-xs">Регистрация</th>
+                            <th class="hidden-xs">ОКВЭД</th>
+                            <th class="hidden-xs">Регион</th>
+
+                            <th class="hidden-xs">Менеджер</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                           {% for e in eruzMembers %}
+
+                                    <tr>
+                                            <td class="hidden-xs">
+
+                                                {% if e.current_user_email == e.manager_email  %}
+
+                                                <button class="badge bg-gray-lighter text-gray fw-semi-bold" target="_blank" style="border: 0px" data-toggle="modal" data-target="#{{ e.id }}">{{ e.id }}</button>
+
+                                                <div class="modal fade" id="{{ e.id }}">
+                                                                <div class="modal-dialog modal-lg">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                             {% if e.short_company_name %}
+                                                                            <h2>{{ e.short_company_name }}</h2>
+                                                                            <h3>ИНН: {{ e.eruz_member_inn }}</h3>
+                                                                            {% elif e.full_company_name %}
+                                                                            <h2>{{ e.full_company_name }}</h2>
+                                                                            <h3>ИНН: {{ e.eruz_member_inn }}</h3>
+                                                                            {% else %}
+                                                                            <h2>ИП {{ e.boss_person_id.l_name }}</h2>
+                                                                            <h3>ИНН: {{ e.boss_person_id.boss_inn }}</h3>
+                                                                            {% endif %}
+
+                                                                        </div>
+                                                                        <div class="modal-body" style="font-size: 14pt">
+                                                                            {% if e.boss_person_id.boss_inn %}
+                                                                                <i class="fa fa-user text-gray"></i>
+                                                                                <span class="label-name"> Руководитель: </span>{{ e.boss_person_id.full_name }}<br>
+                                                                                <i class="fa fa-id-card text-gray"></i>
+                                                                                <span class="label-name"> ИНН руководителя: </span>{{ e.boss_person_id.boss_inn }}
+                                                                                <br>
+                                                                            {% endif %}
+
+                                                                            {% if e.company_cell %}
+
+                                                                                <a href="tel:{{ e.company_cell }}"><i class="fa fa-mobile"></i> +{{ e.company_cell }}</a>
+                                                                                <br>
+                                                                            {% elif e.company_phone %}
+                                                                                    <a href="tel:{{ e.company_phone }}"><i class="fa fa-phone"></i> +{{ e.company_phone }}</a>
+                                                                                    <br>
+                                                                            {% else %}
+
+                                                                            {% endif %}
+
+
+                                                                            {% if e.company_email %}
+
+                                                                                    <a href="mailto:{{ e.company_email }}"><i class="fa fa-envelope"></i> {{ e.company_email }}</a>
+                                                                            {% endif %}
+
+                                                                            {% if e.company_address %}
+                                                                                    <br>
+                                                                            <i class="fa fa-address-card text-gray"></i><span class="label-name"> Адрес компании: </span>{{ e.company_address }}
+
+                                                                            {% endif %}
+
+                                                                            {% if e.nalog_codes_id.nalog_city %}
+                                                                                    <br>
+
+                                                                            <i class="fa fa-building text-gray"></i><span class="label-name"> Город и регион регистрации в ФНС: </span>{{ e.nalog_codes_id.nalog_city }}, {{ e.nalog_codes_id.nalog_region }}
+                                                                            {% endif %}
+
+                                                                            {% if e.company_site %}
+                                                                                    <br>
+                                                                            <a href="http://{{ e.company_site }}"><i class="fa fa-globe"></i> {{ e.company_site }}</a>
+
+                                                                            {% endif %}
+
+                                                                            {% if e.registry_date %}
+                                                                                <br>
+
+                                                                                <i class="fa fa-circle text-gray"></i>
+                                                                                <span class="label-name">Дата регистрации в ФНС: {{ e.registry_date }}</span><br>
+
+                                                                                <i class="fa fa-circle text-warning"></i>
+                                                                                <span class="label-name">Дата регистрации в ЕРУЗ: {{ e.eruz_registry_date }}</span>
+                                                                              {% else %}
+                                                                            <br>
+                                                                                <i class="fa fa-circle text-gray"></i>
+
+                                                                                    <span class="label-name">ФНС: {{ e.ip_reg_date }}</span><br>
+
+                                                                                    <i class="fa fa-circle text-warning"></i>
+                                                                                    <span class="label-name">ЕРУЗ: {{ e.eruz_registry_date }}</span>
+
+                                                                            {% endif %}
+
+                                                                            {% if e.eruz_registry_id %}
+                                                                                <br>
+
+                                                                            <a href="https://zakupki.gov.ru/epz/eruz/card/general-information.html?reestrNumber={{ e.eruz_registry_id }}"><i class="fa fa-globe"></i> https://zakupki.gov.ru/epz/eruz/card/general-information.html?reestrNumber={{ e.eruz_registry_id }}</a>
+                                                                            {% endif %}
+
+                                                                            {% if e.main_okved_desc %}
+                                                                                <br>
+                                                                            <i class="fa fa-circle text-warning"></i>
+                                                                                Основной вид деятельности: {{e.main_okved}} {{ e.main_okved_desc }}
+                                                                            {% endif %}
+
+
+
+                                                                        </div>
+                                                                        <div class="modal-footer"><button class="btn btn-transparent" data-dismiss="modal">Закрыть</button></div>
+                                                                    </div>
+                                                                </div>
+                                                </div>
+
+
+                                                {% else %}
+                                                {{ e.id }}
+                                                {% endif %}
+
+                                            </td>
+                                            <td width="15%">
+
+
+                                                {% if e.short_company_name %}
+                                                    {{ e.short_company_name }}
+                                                <br><span class="text-muted">ИНН: {{ e.eruz_member_inn }}</span>
+                                                {% elif e.full_company_name %}
+                                                    {{ e.full_company_name }}
+                                                <br><span class="text-muted">ИНН: {{ e.eruz_member_inn }}</span>
+                                                {% else %}
+                                                   ИП {{ e.boss_person_id.l_name }}
+                                                <br><span class="text-muted">ИНН: {{ e.boss_person_id.boss_inn }}</span>
+                                                {% endif %}
+
+
+
+                                            </td>
+                                            <td width="15%">
+
+                                                {{ e.boss_person_id.full_name }}
+                                            </td>
+                                            <td class="hidden-xs" style="font-family: 'Open Sans', sans-serif;">
+                                                {% if e.company_cell %}
+                                                    <a href="tel:{{ e.company_cell2 }}"><i class="fa fa-mobile"></i> +{{ e.company_cell2 }}</a>
+                                                    <br>
+                                                {% elif e.company_phone %}
+                                                        <a href="tel:{{ e.company_phone2 }}"><i class="fa fa-phone"></i> +{{ e.company_phone2 }}</a>
+                                                        <br>
+                                                {% else %}
+
+                                                {% endif %}
+
+
+                                                {% if e.company_email2 %}
+
+                                                        <a href="mailto:{{ e.company_email2 }}"><i class="fa fa-envelope"></i> {{ e.company_email2 }}</a>
+                                                {% endif %}
+
+                                            </td>
+                                            <td class="hidden-xs text-muted">
+                                                {% if e.registry_date %}
+
+                                                    <i class="fa fa-circle text-gray"></i>
+                                                    <span class="label-name">ФНС: {{ e.registry_date }}</span><br>
+
+                                                    <i class="fa fa-circle text-warning"></i>
+                                                    <span class="label-name">ЕРУЗ: {{ e.eruz_registry_date }}</span>
+                                                {% else %}
+                                                    <i class="fa fa-circle text-gray"></i>
+                                                        <span class="label-name">ФНС: {{ e.ip_reg_date }}</span><br>
+
+                                                        <i class="fa fa-circle text-warning"></i>
+                                                        <span class="label-name">ЕРУЗ: {{ e.eruz_registry_date }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="hidden-xs text-muted">
+                                                {{ e.main_okved_desc }}
+                                            </td>
+                                            <td class="width-150">
+                                               {% if e.nalog_codes_id.nalog_region %}
+                                                    {{ e.nalog_codes_id.nalog_region }}
+                                                    <br>
+                                                <span class="text-muted">{{ e.nalog_codes_id.nalog_city }}</span>
+                                                {% endif %}
+
+                                            </td>
+                                             <td>
+                                                 {% if e.manager_last_name %}
+                                                 {{ e.manager_name }}<br>{{ e.manager_last_name }}
+                                                 {% else %}
+                                                <!--<span class="badge bg-gray-lighter text-gray fw-semi-bold">Забрать себе</span>-->
+                                                    <form action="{% url 'home' %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" id="custId" name="leadId" value="{{ e.id }}">
+                                                        <button type="submit" class="badge bg-gray-lighter text-gray fw-semi-bold" style="border: 0px" data-toggle="modal" data-target="#{{ e.id }}">Забрать себе</button>
+                                                    </form>
+
+
+                                                            <div class="modal fade" id="{{ e.id }}">
+                                                                <div class="modal-dialog modal-lg">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                             {% if e.short_company_name %}
+                                                                            <h2>{{ e.short_company_name }}</h2>
+                                                                            <h3>ИНН: {{ e.eruz_member_inn }}</h3>
+                                                                            {% elif e.full_company_name %}
+                                                                            <h2>{{ e.full_company_name }}</h2>
+                                                                            <h3>ИНН: {{ e.eruz_member_inn }}</h3>
+                                                                            {% else %}
+                                                                            <h2>ИП {{ e.boss_person_id.l_name }}</h2>
+                                                                            <h3>ИНН: {{ e.boss_person_id.boss_inn }}</h3>
+                                                                            {% endif %}
+
+                                                                        </div>
+                                                                        <div class="modal-body" style="font-size: 14pt">
+                                                                            {% if e.boss_person_id.boss_inn %}
+                                                                                <i class="fa fa-user text-gray"></i>
+                                                                                <span class="label-name"> Руководитель: </span>{{ e.boss_person_id.full_name }}<br>
+                                                                                <i class="fa fa-id-card text-gray"></i>
+                                                                                <span class="label-name"> ИНН руководителя: </span>{{ e.boss_person_id.boss_inn }}
+                                                                                <br>
+                                                                            {% endif %}
+
+                                                                            {% if e.company_cell %}
+
+                                                                                <a href="tel:{{ e.company_cell }}"><i class="fa fa-mobile"></i> +{{ e.company_cell }}</a>
+                                                                                <br>
+                                                                            {% elif e.company_phone %}
+                                                                                    <a href="tel:{{ e.company_phone }}"><i class="fa fa-phone"></i> +{{ e.company_phone }}</a>
+                                                                                    <br>
+                                                                            {% else %}
+
+                                                                            {% endif %}
+
+
+                                                                            {% if e.company_email %}
+
+                                                                                    <a href="mailto:{{ e.company_email }}"><i class="fa fa-envelope"></i> {{ e.company_email }}</a>
+                                                                            {% endif %}
+
+                                                                            {% if e.company_address %}
+                                                                                    <br>
+                                                                            <i class="fa fa-address-card text-gray"></i><span class="label-name"> Адрес компании: </span>{{ e.company_address }}
+
+                                                                            {% endif %}
+
+                                                                            {% if e.nalog_codes_id.nalog_city %}
+                                                                                    <br>
+
+                                                                            <i class="fa fa-building text-gray"></i><span class="label-name"> Город и регион регистрации в ФНС: </span>{{ e.nalog_codes_id.nalog_city }}, {{ e.nalog_codes_id.nalog_region }}
+                                                                            {% endif %}
+
+                                                                            {% if e.company_site %}
+                                                                                    <br>
+                                                                            <a href="http://{{ e.company_site }}"><i class="fa fa-globe"></i> {{ e.company_site }}</a>
+
+                                                                            {% endif %}
+
+                                                                            {% if e.registry_date %}
+                                                                                <br>
+
+                                                                                <i class="fa fa-circle text-gray"></i>
+                                                                                <span class="label-name">Дата регистрации в ФНС: {{ e.registry_date }}</span><br>
+
+                                                                                <i class="fa fa-circle text-warning"></i>
+                                                                                <span class="label-name">Дата регистрации в ЕРУЗ: {{ e.eruz_registry_date }}</span>
+                                                                              {% else %}
+                                                                            <br>
+                                                                                <i class="fa fa-circle text-gray"></i>
+
+                                                                                    <span class="label-name">ФНС: {{ e.ip_reg_date }}</span><br>
+
+                                                                                    <i class="fa fa-circle text-warning"></i>
+                                                                                    <span class="label-name">ЕРУЗ: {{ e.eruz_registry_date }}</span>
+
+                                                                            {% endif %}
+
+                                                                            {% if e.eruz_registry_id %}
+                                                                                <br>
+
+                                                                            <a href="https://zakupki.gov.ru/epz/eruz/card/general-information.html?reestrNumber={{ e.eruz_registry_id }}"><i class="fa fa-globe"></i> https://zakupki.gov.ru/epz/eruz/card/general-information.html?reestrNumber={{ e.eruz_registry_id }}</a>
+                                                                            {% endif %}
+
+                                                                            {% if e.main_okved_desc %}
+                                                                                <br>
+                                                                            <i class="fa fa-circle text-warning"></i>
+                                                                                Основной вид деятельности: {{e.main_okved}} {{ e.main_okved_desc }}
+                                                                            {% endif %}
+
+
+
+                                                                        </div>
+                                                                        <div class="modal-footer"><button class="btn btn-transparent" data-dismiss="modal">Закрыть</button></div>
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+
+
+
+
+
+                                                 {% endif %}
+                                                 <!--<a href="#" id="addLead" data-toggle="modal" data-target="#addLead" class="button">Click Me</a>-->
+                                            </td>
+                                        </tr>
+
+                           {% endfor %}
+
+
+
+                        </tbody>
+
+                    </table>
+                    <div class="clearfix">
+
+
+
+                        <div class="containter">
+
+
+
+                            <div class="col-md-2" align="left" class="align-self-center">
+
+                                <p style="padding-top: 7px">Всего страниц: <strong>{{ eruzMembers.paginator.num_pages }}</strong></p>
+
+
+                        </div>
+                        <div class="col-md-6" align="center">
+
+                            <div style="padding-top: 7px">
+
+                            {% if eruzMembers.has_previous %}
+                            <a href="?page=1"><strong><<</strong></a>
+                                <a href="?page={{ eruzMembers.previous_page_number }}"><strong><</strong></a>
+                            {% endif %}
+
+
+
+
+                        {% for num in eruzMembers.paginator.page_range %}
+                            {% if eruzMembers.number == num %}
+
+                            <a href="?page={{ num }}"><strong>{{ num }}</strong></a>
+                            {% elif num > eruzMembers.number|add:'-20' and num < eruzMembers.number|add:'20' %}
+                                <a href="?page={{ num }}">{{ num }}</a>
+                            {% endif %}
+                        {% endfor %}
+
+                              {% if eruzMembers.has_next %}
+                                <a href="?page={{ eruzMembers.next_page_number }}"><strong>></strong></a>
+
+                            <a href="?page={{ eruzMembers.paginator.num_pages }}"><strong>>></strong></a>
+                            {% endif %}
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="col-md-4" align="center">
+
+
+
+                            <div class="widget-controls">
+                                <form class="form-inline my-2 my-lg-0">
+                                      <input class="form-control mr-sm-2" type="search" placeholder="Номер страницы" aria-label="Search" name="pagenum" id='ipadd'>
+                                      <a class="btn btn-transparent" onclick='displayCam()' href="" id="pageView" >Перейти</a>
+                            </form>
+                            </div>
+                        </div>
+
+                                        <!--<div class="col-md-1" align="left">-->
+
+
+
+
+
+                                                <!--<div class="widget-controls">-->
+
+                                                               <!--<form action="{% url 'home' %}" method="POST">-->
+                                                                    <!--{% csrf_token %}-->
+                                                                        <!--<select class="selectpicker" data-style="btn-transparent btn-sm2" data-width="100px" title="Строки" name="recordsperpage" onchange="recordsperpage.form.submit()">-->
+                                                                                <!--<option>10</option>-->
+                                                                                <!--<option>25</option>-->
+                                                                                <!--<option>50</option>-->
+                                                                        <!--</select>-->
+                                                                 <!--</form>-->
+                                                <!--</div>-->
+
+                                        <!--</div>-->
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+                </div>
+            </section>
+
+            <!--{% for o in testBx %}-->
+                <!--{{ o }}-->
+            <!--{% endfor %}-->
+
+
+
+            <br><br>
+        </div>
+
+    </div>
+    <!--<div class="row">-->
+        <!--<div class="col-md-6">-->
+            <!--<section class="widget">-->
+                <!--<header>-->
+                    <!--<h5>Table <span class="fw-semi-bold">Styles</span></h5>-->
+                    <!--<div class="widget-controls">-->
+                        <!--<a href="#"><i class="glyphicon glyphicon-cog"></i></a>-->
+                        <!--<a data-widgster="close" href="#"><i class="glyphicon glyphicon-remove"></i></a>-->
+                    <!--</div>-->
+                <!--</header>-->
+                <!--<div class="widget-body">-->
+                    <!--<h3>Stripped <span class="fw-semi-bold">Table</span></h3>-->
+                    <!--<p>Each row is highlighted. You will never lost there. Just <code>.table-striped</code> it.</p>-->
+                    <!--<table class="table table-striped">-->
+                        <!--<thead>-->
+                        <!--<tr>-->
+                            <!--<th>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox1" type="checkbox" data-check-all>-->
+                                    <!--<label for="checkbox1"></label>-->
+                                <!--</div>-->
+                            <!--</th>-->
+                            <!--<th>First Name</th>-->
+                            <!--<th>Last Name</th>-->
+                            <!--<th>Info</th>-->
+                        <!--</tr>-->
+                        <!--</thead>-->
+                        <!--<tbody>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox2" type="checkbox">-->
+                                    <!--<label for="checkbox2"></label>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td>Mark</td>-->
+                            <!--<td>Otto</td>-->
+                            <!--<td><span class="label label-danger">Online</span></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox3" type="checkbox">-->
+                                    <!--<label for="checkbox3"></label>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td>Jacob <span class="label label-warning text-gray-dark fw-semi-bold">ALERT!</span></td>-->
+                            <!--<td>Thornton</td>-->
+                            <!--<td><span class="label bg-gray-light">Away</span></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox4" type="checkbox">-->
+                                    <!--<label for="checkbox4"></label>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td>Larry</td>-->
+                            <!--<td>the Bird</td>-->
+                            <!--<td><span class="label label-danger">Construct</span></td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                    <!--</table>-->
+                    <!--<br><br>-->
+                    <!--<h3>Hover <span class="fw-semi-bold">Table</span></h3>-->
+                    <!--<p>Trace only what's really important. <code>.table-hover</code> is made for it.</p>-->
+                    <!--<div class="table-responsive">-->
+                        <!--<table class="table table-hover">-->
+                            <!--<thead>-->
+                            <!--<tr>-->
+                                <!--<th>#</th>-->
+                                <!--<th>First Name</th>-->
+                                <!--<th>Last Name</th>-->
+                                <!--<th>Email</th>-->
+                                <!--<th>Status</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody>-->
+                            <!--<tr>-->
+                                <!--<td>1</td>-->
+                                <!--<td>Mark</td>-->
+                                <!--<td>Otto</td>-->
+                                <!--<td><a href="#">ottoto@example.com</a></td>-->
+                                <!--<td><span class="badge bg-gray-lighter text-gray fw-semi-bold">Pending</span></td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td>2</td>-->
+                                <!--<td>Jacob</td>-->
+                                <!--<td>Thornton</td>-->
+                                <!--<td><a href="#">fat.thor@example.com</a></td>-->
+                                <!--<td><span class="badge bg-gray-lighter text-gray-light">Unconfirmed</span></td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td>3</td>-->
+                                <!--<td>Larry</td>-->
+                                <!--<td>the Bird</td>-->
+                                <!--<td><a href="#">larry@example.com</a></td>-->
+                                <!--<td><span class="badge bg-gray-lighter text-gray fw-semi-bold">New</span></td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td>4</td>-->
+                                <!--<td>Peter</td>-->
+                                <!--<td>Horadnia</td>-->
+                                <!--<td><a href="#">peter@example.com</a></td>-->
+                                <!--<td><span class="badge bg-gray-lighter text-gray-light">Active</span></td>-->
+                            <!--</tr>-->
+                            <!--</tbody>-->
+                        <!--</table>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</section>-->
+        <!--</div>-->
+        <!--<div class="col-md-6">-->
+            <!--<section class="widget">-->
+                <!--<header>-->
+                    <!--<h5>Table <span class="fw-semi-bold">Styles</span></h5>-->
+                    <!--<div class="widget-controls">-->
+                        <!--<a href="#"><i class="glyphicon glyphicon-cog"></i></a>-->
+                        <!--<a data-widgster="close" href="#"><i class="glyphicon glyphicon-remove"></i></a>-->
+                    <!--</div>-->
+                <!--</header>-->
+                <!--<div class="body">-->
+                    <!--<h3>Bordered  <span class="fw-semi-bold">Table</span></h3>-->
+                    <!--<p>Each row is highlighted. You will never lost there. That's how-->
+                        <!--all of us learned in school the table should look like. Just add-->
+                        <!--<code>.table-bordered</code> to it.</p>-->
+                    <!--<table class="table table-bordered table-lg mt-lg mb-0">-->
+                        <!--<thead>-->
+                        <!--<tr>-->
+                            <!--<th>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox10" type="checkbox" data-check-all>-->
+                                    <!--<label for="checkbox10"></label>-->
+                                <!--</div>-->
+                            <!--</th>-->
+                            <!--<th>Product</th>-->
+                            <!--<th class="text-align-right">Price</th>-->
+                            <!--<th class="text-align-center">Sales</th>-->
+                        <!--</tr>-->
+                        <!--</thead>-->
+                        <!--<tbody>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox11" type="checkbox" data-check-all>-->
+                                    <!--<label for="checkbox11"></label>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td>On the Road</td>-->
+                            <!--<td class="text-align-right">$25 224.2</td>-->
+                            <!--<td class="text-align-center">-->
+                                <!--<div class="sparkline" data-type="bar" data-bar-color="#618fb0">13,14,16,15,4,14,20</div>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox12" type="checkbox" data-check-all>-->
+                                    <!--<label for="checkbox12"></label>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td>HP Core i7</td>-->
+                            <!--<td class="text-align-right">$87 346.1</td>-->
+                            <!--<td class="text-align-center">-->
+                                <!--<div class="sparkline" data-type="bar" data-bar-color="#999">14,12,16,11,17,19,16</div>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox13" type="checkbox" data-check-all>-->
+                                    <!--<label for="checkbox13"></label>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td>Let's Dance</td>-->
+                            <!--<td class="text-align-right">$57 944.6</td>-->
+                            <!--<td class="text-align-center">-->
+                                <!--<div class="sparkline" data-type="bar" data-bar-color="#f0b518">11,17,19,16,14,12,16</div>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox14" type="checkbox" data-check-all>-->
+                                    <!--<label for="checkbox14"></label>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td>Air Pro</td>-->
+                            <!--<td class="text-align-right">$118 533.1</td>-->
+                            <!--<td class="text-align-center">-->
+                                <!--<div class="sparkline" data-type="bar" data-bar-color="#e5603b">13,14,20,16,15,4,14</div>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox15" type="checkbox" data-check-all>-->
+                                    <!--<label for="checkbox15"></label>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td>Version Control</td>-->
+                            <!--<td class="text-align-right">$72 854.5</td>-->
+                            <!--<td class="text-align-center">-->
+                                <!--<div class="sparkline" data-type="bar" data-bar-color="#618fb0">16,15,4,14,13,14,20</div>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                    <!--</table>-->
+                <!--</div>-->
+            <!--</section>-->
+            <!--<section class="widget">-->
+                <!--<header>-->
+                    <!--<h5>Table <span class="fw-semi-bold">Styles</span></h5>-->
+                    <!--<div class="widget-controls">-->
+                        <!--<a href="#"><i class="glyphicon glyphicon-cog"></i></a>-->
+                        <!--<a data-widgster="close" href="#"><i class="glyphicon glyphicon-remove"></i></a>-->
+                    <!--</div>-->
+                <!--</header>-->
+                <!--<div class="body">-->
+                    <!--<h3>Overflow  <span class="fw-semi-bold">Table</span></h3>-->
+                    <!--<p>-->
+                        <!--Add any non-bordered .table within a widget for a seamless design.-->
+                        <!--Awesome look for no cost.-->
+                        <!--Just wrap the table with simple css class <code>.widget-table-overflow</code> inside-->
+                        <!--of widget-->
+                    <!--</p>-->
+                <!--</div>-->
+                <!--<div class="widget-table-overflow">-->
+                    <!--<table class="table table-striped table-lg mt-lg mb-0">-->
+                        <!--<thead class="no-bd">-->
+                        <!--<tr>-->
+                            <!--<th>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox210" type="checkbox" data-check-all>-->
+                                    <!--<label for="checkbox210"></label>-->
+                                <!--</div>-->
+                            <!--</th>-->
+                            <!--<th>Product</th>-->
+                            <!--<th class="text-align-right">Price</th>-->
+                            <!--<th class="text-align-center">Sales</th>-->
+                        <!--</tr>-->
+                        <!--</thead>-->
+                        <!--<tbody>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox211" type="checkbox" data-check-all>-->
+                                    <!--<label for="checkbox211"></label>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td>On the Road</td>-->
+                            <!--<td class="text-align-right">$25 224.2</td>-->
+                            <!--<td class="text-align-center">-->
+                                <!--<div class="sparkline" data-type="bar" data-bar-color="#618fb0">13,14,16,15,4,14,20</div>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox212" type="checkbox" data-check-all>-->
+                                    <!--<label for="checkbox212"></label>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td>HP Core i7</td>-->
+                            <!--<td class="text-align-right">$87 346.1</td>-->
+                            <!--<td class="text-align-center">-->
+                                <!--<div class="sparkline" data-type="bar" data-bar-color="#999">14,12,16,11,17,19,16</div>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox213" type="checkbox" data-check-all>-->
+                                    <!--<label for="checkbox213"></label>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td>Let's Dance</td>-->
+                            <!--<td class="text-align-right">$57 944.6</td>-->
+                            <!--<td class="text-align-center">-->
+                                <!--<div class="sparkline" data-type="bar" data-bar-color="#f0b518">11,17,19,16,14,12,16</div>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox214" type="checkbox" data-check-all>-->
+                                    <!--<label for="checkbox214"></label>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td>Air Pro</td>-->
+                            <!--<td class="text-align-right">$118 533.1</td>-->
+                            <!--<td class="text-align-center">-->
+                                <!--<div class="sparkline" data-type="bar" data-bar-color="#e5603b">13,14,20,16,15,4,14</div>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<div class="checkbox">-->
+                                    <!--<input id="checkbox215" type="checkbox" data-check-all>-->
+                                    <!--<label for="checkbox215"></label>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td>Version Control</td>-->
+                            <!--<td class="text-align-right">$72 854.5</td>-->
+                            <!--<td class="text-align-center">-->
+                                <!--<div class="sparkline" data-type="bar" data-bar-color="#618fb0">16,15,4,14,13,14,20</div>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                    <!--</table>-->
+                <!--</div>-->
+            <!--</section>-->
+        <!--</div>-->
+    <!--</div>-->
+
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+    <!-- page specific libs -->
+    <script src="/static/assets/lib/jquery.sparkline/index.js"></script>
+
+    <!-- page application js -->
+    <script src="/static/assets/js/tables-static.js"></script>
+
+{% endblock javascripts %}

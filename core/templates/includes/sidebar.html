@@ -1,0 +1,188 @@
+
+
+<nav id="sidebar" class="sidebar nav-collapse collapse">
+
+    <!--<ul id="side-nav" class="side-nav">-->
+        <!--<li class="active">-->
+            <!--<a href="/"><i class="fa fa-home"></i> <span class="name">Главная</span></a>-->
+        <!--</li>-->
+        <!--<li class="">-->
+            <!--<a href="/stats.html"><i class="fa fa-th-list"></i> Статистика</a>-->
+        <!--</li>-->
+        <!--<li class="">-->
+            <!--<a href="/charts.html"><i class="fa fa-signal"></i> Графики</a>-->
+        <!--</li>-->
+        <!--<li class="">-->
+            <!--<a href="/maps.html"><i class="fa fa-globe"></i> География</a>-->
+        <!--</li>-->
+        <!--<li class="">-->
+            <!--<a href="/tables.html"><i class="fa fa-table"></i> Таблицы</a></li>-->
+        <!--</li>-->
+        <!--<li class="">-->
+            <!--<a href="/typography.html"><i class="fa fa-font"></i> Typography</a></li>-->
+        <!--</li>-->
+
+        <!--<li class="">-->
+            <!--<a href="/notifications.html"><i class="fa fa-bell"></i> Notifications</a></li>-->
+        <!--</li>-->
+        <!--<li class="panel ">-->
+            <!--<a class="accordion-toggle collapsed" data-toggle="collapse"-->
+                <!--data-parent="#side-nav" href="#elements-collapse"><i class="fa fa-magic"></i> <span class="name">Elements</span></a>-->
+            <!--<ul id="elements-collapse" class="panel-collapse collapse ">-->
+                <!--<li class=""><a href="/charts.html">Charts</a></li>-->
+                <!--<li class=""><a href="/icons.html">Icons</a></li>-->
+                <!--<li class=""><a href="/maps.html" data-no-pjax>Maps</a></li>-->
+            <!--</ul>-->
+
+        <!--</li>-->
+    <!--</ul>-->
+
+    <!--<br>-->
+    <!--<br>-->
+
+    <div style="padding-left: 20px; padding-top: 47px;"><i class="fa fa-search text-danger"></i>
+                <span class="label-name">Фильтр поиска</span></div>
+
+
+    <form action="{% url 'home' %}" method="POST" class="form-inline" style="margin-left: 20px; padding-top: 10px; padding-bottom: 10px" >
+        {% csrf_token %}
+
+
+
+
+
+        <select class="selectpicker show-tick" data-live-search="true" data-style="btn-transparent btn-sm" data-width="140px" title="
+        {% if region|length > 1 %}
+            {{ region }}
+        {% else %}
+            Регион...
+        {% endif %}
+        " name="region" >
+                <option data-tokens="Россия, РФ">РФ</option>
+            {% for n in nalogCodes %}
+                <option data-tokens="{{ n.nalog_region }}, {{ n.nalog_city }}">{{ n.nalog_region }}</option>
+            {% endfor %}
+
+
+        </select>
+                <br><br>
+        <select class="selectpicker show-tick" data-live-search="true" data-style="btn-transparent btn-sm" data-width="140px" title="
+        {% if gorod|length > 1 %}
+            {{ gorod }}
+        {% else %}
+            Город...
+        {% endif %}
+        " name="gorod">
+                <option data-tokens="Любой город">Любой город</option>
+            {% for n2 in nalogCodes2 %}
+                <option data-tokens="{{ n2.nalog_city }}">{{ n2.nalog_city }}</option>
+            {% endfor %}
+        </select>
+                        <br><br>
+        <select class="selectpicker show-tick" data-live-search="true" data-style="btn-transparent btn-sm" data-width="140px" title="
+        {% if okved|length > 1 %}{{ okved }}{% else %}ОКВЭД...{% endif %}" name="okved">
+                <option data-tokens="Любой вид деятельности">Любой вид деятельности</option>
+            {% for o in okved2020 %}
+                <option data-tokens="{{ o.okved_code }}, {{ o.okved_desc }}">{{ o.okved_code }} {{ o.okved_desc }}</option>
+            {% endfor %}
+
+        </select>
+        <br><br>
+        <input id="new-message" type="text" class="form-control input-transparent2 mt-n-xs" placeholder="{% if companyname|length > 1 %}{{ companyname }}{% else %}Организация...{% endif %}" style="width: 140px" name="companyname">
+
+        <br><br>
+        <input id="new-message" type="text" class="form-control input-transparent2 mt-n-xs" placeholder="{% if bossname|length > 1 %}{{ bossname }}{% else %}Руководитель...{% endif %}" style="width: 140px !important" name="bossname">
+
+        <br><br>
+        <input id="new-message" type="text" class="form-control input-transparent2 mt-n-xs" placeholder="{% if inn %}{{ inn }}{% else %}ИНН...{% endif %}" style="width: 140px" name="inn">
+
+        <br><br>
+        <input id="new-message" type="text" class="form-control input-transparent2 mt-n-xs" placeholder="{% if phone|length > 1 %}{{ phone }}{% else %}Телефон...{% endif %}" style="width: 140px" name="phone">
+
+        <br><br>
+        <input id="new-message" type="text" class="form-control input-transparent2 mt-n-xs" placeholder="{% if email|length > 1 %}{{ email }}{% else %}Email...{% endif %}" style="width: 140px" name="email">
+        <br><br>
+        <input type="hidden" value="" name="generalRequest">
+
+
+
+
+      <button type="submit" class="btn btn-transparent2 btn-block">Найти</button>
+    </form>
+
+
+    <form action="{% url 'home' %}" method="POST" class="form-inline" style="margin-left: 20px; padding-top: 10px; padding-bottom: 10px" >
+        {% csrf_token %}
+
+
+
+
+
+
+        <input type="hidden" value="" name="region">
+        <input type="hidden" value="" name="gorod">
+        <input type="hidden" value="" name="okved">
+        <input type="hidden" value="" name="generalRequest">
+
+        <input type="hidden" value=""  name="bossname">
+
+        <input type="hidden" value=""  name="inn">
+
+
+        <input type="hidden" value=""  name="phone">
+
+
+        <input type="hidden" value=""  name="email">
+
+
+
+
+
+      <button type="submit" class="btn btn-transparent btn-block">Сбросить фильтр</button>
+    </form>
+
+    <!--<h5 class="sidebar-nav-title">Labels <a class="action-link" href="#"><i class="glyphicon glyphicon-plus"></i></a></h5>-->
+    <!--&lt;!&ndash; some styled links in sidebar. ready to use as links to email folders, projects, groups, etc &ndash;&gt;-->
+    <!--<ul class="sidebar-labels">-->
+        <!--<li>-->
+            <!--<a href="#">-->
+                <!--&lt;!&ndash; yep, .circle again &ndash;&gt;-->
+                <!--<i class="fa fa-circle text-warning"></i>-->
+                <!--<span class="label-name">My Recent</span>-->
+            <!--</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a href="#">-->
+                <!--<i class="fa fa-circle text-gray"></i>-->
+                <!--<span class="label-name">Starred</span>-->
+            <!--</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a href="#">-->
+                <!--<i class="fa fa-circle text-danger"></i>-->
+                <!--<span class="label-name">Background</span>-->
+            <!--</a>-->
+        <!--</li>-->
+    <!--</ul>-->
+
+    <!--<h5 class="sidebar-nav-title">Projects</h5>-->
+    <!--&lt;!&ndash; A place for sidebar notifications & alerts &ndash;&gt;-->
+    <!--<div class="sidebar-alerts">-->
+        <!--<div class="alert fade in">-->
+            <!--<a href="#" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>-->
+            <!--<span class="text-white fw-semi-bold">Sales Report</span> <br>-->
+            <!--<div class="progress progress-xs mt-xs mb-0">-->
+                <!--<div class="progress-bar progress-bar-gray-light" style="width: 16%"></div>-->
+            <!--</div>-->
+            <!--<small>Calculating x-axis bias... 65%</small>-->
+        <!--</div>-->
+        <!--<div class="alert fade in">-->
+            <!--<a href="#" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>-->
+            <!--<span class="text-white fw-semi-bold">Personal Responsibility</span> <br>-->
+            <!--<div class="progress progress-xs mt-xs mb-0">-->
+                <!--<div class="progress-bar progress-bar-danger" style="width: 23%"></div>-->
+            <!--</div>-->
+            <!--<small>Provide required notes</small>-->
+        <!--</div>-->
+    <!--</div>-->
+</nav>

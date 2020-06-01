@@ -1,0 +1,106 @@
+{% extends "layouts/base-site-fullscreen.html" %}
+
+{% block title %} Register {% endblock %} 
+
+{% block content %}
+
+    <section class="widget login-widget">
+        <header class="text-align-center">
+
+            <br />
+
+            <p>
+                {% if msg %}
+                    {{ msg | safe }}
+                {% else %}
+                   Возможно использовать только Email, зарегистрированный в CRM компании "Эксперт Центр"
+                {% endif %}
+            </p>
+
+        </header>
+        <div class="body">
+
+            {% if success %}
+
+                <p class="text-align-center">
+                Пожалуйста, <a href={% url 'login' %} class="text-black text-small">войдите</a>.
+                </p>
+                <br />
+
+            {% else %}
+
+                <form role="form" method="post" action="">
+
+                    {% csrf_token %}
+
+                    <fieldset>
+
+                        <div class="form-group">
+                            <label for="username" >Email</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-envelope"></i>
+                                </span>
+                                {{ form.username }}
+                            </div>
+                        </div>
+                        <span class="text-danger">{{ form.username.errors }}</span>
+
+                        <!--<div class="form-group">-->
+                            <!--<label for="email" >Email</label>-->
+                            <!--<div class="input-group">-->
+                                <!--<span class="input-group-addon">-->
+                                    <!--<i class="fa fa-envelope"></i>-->
+                                <!--</span>-->
+                                <!--{{ form.email }}-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<span class="text-danger">{{ form.email.errors }}</span>-->
+
+                        <div class="form-group">
+                            <label for="password" >Пароль</label>
+
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                                {{ form.password1 }}
+                            </div>
+                        </div>
+                        <span class="text-danger">{{ form.password1.errors }}</span>
+
+                        <div class="form-group">
+                            <label for="password" >Проверка пароля</label>
+
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                                {{ form.password2 }}
+                            </div>
+                        </div>
+                        <span class="text-danger">{{ form.password2.errors }}</span>
+
+                    </fieldset>
+                    <div class="form-actions">
+                        <button type="submit" name="register" class="btn btn-block btn-lg btn-danger">
+                            <span class="small-circle"><i class="fa fa-caret-right"></i></span>
+                            <small>Регистрация</small>
+                        </button>
+                        <a class="forgot" href={% url 'login' %} >Уже зарегистрированы? Войти</a>
+                    </div>
+                </form>
+
+            {% endif %}
+
+        </div>
+        <footer>
+            <div class="facebook-login">
+               <a href="https://expertcentre.org">
+                    <span><i class="fa fa-copyright fa-lg"></i> 2020 Эксперт Центр </span>
+                </a>
+            </div>
+        </footer>
+    </section>
+
+{% endblock content %}
