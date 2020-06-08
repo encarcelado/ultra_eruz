@@ -175,8 +175,20 @@
                                                                             {% if e.main_okved_desc %}
                                                                                 <br>
                                                                             <i class="fa fa-circle text-warning"></i>
-                                                                                Основной вид деятельности: {{e.main_okved}} {{ e.main_okved_desc }}
+                                                                                Основной вид деятельности: {{ e.main_okved }} {{ e.main_okved_desc }}
                                                                             {% endif %}
+
+                                                                            {% if e.SumDohod2018 %}
+                                                                                <br>
+                                                                            <i class="fa fa-circle text-gray"></i>
+                                                                                Задекларированная сумма доходов и расходов в 2018 г.: {{ e.SumDohod2018 }}/{{ e.SumRashod2018 }}
+                                                                            {% endif %}
+                                                                            {% if e.KolRab %}
+                                                                                <br>
+                                                                            <i class="fa fa-circle text-gray"></i>
+                                                                                Среднесписочное количество работников в 2018 г.: {{e.KolRab}}
+                                                                            {% endif %}
+
 
 
 
@@ -359,6 +371,18 @@
                                                                                 <br>
                                                                             <i class="fa fa-circle text-warning"></i>
                                                                                 Основной вид деятельности: {{e.main_okved}} {{ e.main_okved_desc }}
+                                                                            {% endif %}
+
+                                                                             {% if e.SumDohod2018 %}
+                                                                                <br>
+                                                                            <i class="fa fa-circle text-gray"></i>
+                                                                                Задекларированная сумма доходов и расходов в 2018 г.: {{ e.SumDohod2018 }}/{{ e.SumRashod2018 }}
+                                                                            {% endif %}
+
+                                                                            {% if e.KolRab %}
+                                                                                <br>
+                                                                            <i class="fa fa-circle text-gray"></i>
+                                                                                Среднесписочное количество работников в 2018 г.: {{e.KolRab}}
                                                                             {% endif %}
 
 

@@ -14,6 +14,7 @@ from .models import Okved2020
 from .models import BossPerson
 from .models import DjangoUserLimit
 
+
 # from .models import AuthUser
 # from .serializers import AuthUserSerializer
 # from rest_framework import viewsets

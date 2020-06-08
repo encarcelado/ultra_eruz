@@ -228,13 +228,15 @@ class EruzMember(models.Model):
     small_business_subject = models.IntegerField()
     main_okved = models.CharField(max_length=20)
     main_okved_desc = models.CharField(max_length=255)
+    KolRab = models.CharField(max_length=5)
+    SumDohod2018 = models.CharField(max_length=30)
+    SumRashod2018 = models.CharField(max_length=30)
 
 
 
     class Meta:
         managed = False
         db_table = 'eruz_member'
-
 
 class EruzMemberContractCard(models.Model):
     eruz_member_id = models.CharField(max_length=20)
@@ -244,6 +246,15 @@ class EruzMemberContractCard(models.Model):
     class Meta:
         managed = False
         db_table = 'eruz_member_contract_card'
+
+# class Dohod(models.Model):
+#     inn = models.IntegerField(unique=True)
+#     SumDohod2018 = models.CharField(max_length=30)
+#     SumRashod2018 = models.CharField(max_length=30)
+#
+#     class Meta:
+#         managed = False
+#         db_table = 'dohod'
 
 
 class EruzMemberOkpd(models.Model):
