@@ -12,7 +12,8 @@ from .models import EruzMember
 from .models import NalogCodes
 from .models import Okved2020
 from .models import BossPerson
-from .models import DjangoUserLimit
+# from .models import DjangoUserLimit
+from .models import AuthUser
 
 
 # from .models import AuthUser
@@ -83,12 +84,12 @@ def UserLimit(current_user_email):
     # today = today.strftime("%d.%m.%Y")
     # today = str(today)
     try:
-        this_user_info = DjangoUserLimit.objects.get(email=current_user_email)
+        this_user_info = AuthUser.objects.get(email=current_user_email)
         # print(this_user_info.email)
 
     except:
         lead_count = 1
-        p = DjangoUserLimit.objects.create(email=current_user_email, get_lead_date=today, lead_count=lead_count)
+        p = AuthUser.objects.create(email=current_user_email, get_lead_date=today, lead_count=lead_count)
         p.save(force_insert=True)
         return lead_count
     try:
