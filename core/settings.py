@@ -31,9 +31,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'rest_framework',
-    'app'  # Enable the inner app 
+    'app',  # Enable the inner app
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.mailru',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.yandex',
+
 ]
+
+SITE_ID = 3
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,6 +76,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
@@ -146,6 +162,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# AUTH_USER_MODEL = 'localusers.LocalUser'
+# LOGIN_URL = "/account/login"
+# LOGIN_REDIRECT_URL = "/"
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (

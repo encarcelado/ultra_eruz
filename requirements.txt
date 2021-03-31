@@ -9,7 +9,6 @@ dj-database-url
 python-decouple
 gunicorn
 whitenoise
-django-heroku
 bitrix24-rest
 requests
 mysqlclient

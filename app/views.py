@@ -124,30 +124,55 @@ def index(request):
     from django.db.models import Q
 
 
-    global region
-    global gorod
-    global okved
-    global companyname
-    global bossname
-    global inn
-    global inn2
-    global inntotal
-    global phone
-    global cell
-    global email
-    global recordsperpage
-    global phonetotal
-    global nalogCodes
-    global nalogCodes2
-    global okved2020
-    global eruzMember
-    global eruzMembers
-    global bossPerson
-    global bx24
-    global current_user_email
-    global generalRequest
-    global current_user_bitrix_id
-    global showleads
+    # global region
+    # global gorod
+    # global okved
+    # global companyname
+    # global bossname
+    # global inn
+    # global inn2
+    # global inntotal
+    # global phone
+    # global cell
+    # global email
+    # global recordsperpage
+    # global phonetotal
+    # global nalogCodes
+    # global nalogCodes2
+    # global okved2020
+    # global eruzMember
+    # global eruzMembers
+    # global bossPerson
+    # global bx24
+    # global current_user_email
+    # global generalRequest
+    # global current_user_bitrix_id
+    # global showleads
+
+    region = ""
+    gorod = ""
+    okved = ""
+    companyname = ""
+    bossname = ""
+    inn = ""
+    inn2 = ""
+    inntotal = ""
+    phone = ""
+    cell = ""
+    email = ""
+    recordsperpage = 10
+    phonetotal = ""
+    nalogCodes = ""
+    nalogCodes2 = ""
+    okved2020 = ""
+    eruzMember = ""
+    eruzMembers = ""
+    bossPerson = ""
+
+    current_user_email = ""
+    generalRequest = ""
+    current_user_bitrix_id = ""
+    showleads = ""
     leadId = ""
     user_limit_warning = ""
     newBitrixLeadObject = ""
@@ -250,7 +275,7 @@ def index(request):
         if leadId:
             user_limit_warning = ""
             user_limit = UserLimit(current_user_email)
-            print("Проверка " + str(user_limit))
+            # print("Проверка " + str(user_limit))
             if user_limit >= 19:
                 leadId = ""
                 user_limit_warning = "Вы превысили лимит присвоения лидов на сегодня"
@@ -294,12 +319,14 @@ def index(request):
         try:
             okved2 = request.POST['okved']
             okved = okved2
+
             if okved == "Любой вид деятельности":
                 okved = ""
+            if okved:
+                okved = okved[0:4]
         except:
             pass
-        if okved:
-            okved = okved[0:4]
+
         try:
             companyname2 = request.POST['companyname']
             companyname = companyname2
@@ -317,13 +344,14 @@ def index(request):
             inn23 = request.POST['inn']
             inntotal = inn23
             inn = inn23
+            if len(inn) == 12:
+                inn2 = inn
+                inn = ""
+                inntotal = inn
         except:
             pass
 
-        if len(inn) == 12:
-            inn2 = inn
-            inn = ""
-            inntotal = inn
+
         try:
             phone2 = request.POST['phone']
             phone = phone2
@@ -346,8 +374,6 @@ def index(request):
 
         except:
             pass
-
-
 
 
 
@@ -376,10 +402,6 @@ def index(request):
                                                       boss_person_id__boss_inn__contains=inn2,
                                                       company_phone__contains=phone, company_cell__contains=cell,
                                                       company_email__contains=email,).order_by('-id')
-
-
-
-
 
 
         paginator = Paginator(eruzMembers, recordsperpage)
@@ -468,7 +490,7 @@ def AddBitrixLeadToCurrentUser(leadId, current_user_bitrix_id):
             address = ""
 
         if newBitrixLeadObject.boss_person_id:
-            comment = newBitrixLeadObject.boss_person_id.full_name + newBitrixLeadObject.main_okved_desc
+            comment = newBitrixLeadObject.boss_person_id.full_name + " " + newBitrixLeadObject.main_okved_desc
         else:
             comment = newBitrixLeadObject.full_company_name
 
@@ -486,7 +508,7 @@ def AddBitrixLeadToCurrentUser(leadId, current_user_bitrix_id):
 
         if newBitrixLeadObject.main_okved:
             mainokved = newBitrixLeadObject.main_okved
-            mainokveddesc = newBitrixLeadObject.main_okved_desc
+            mainokvedjsc = newBitrixLeadObject.main_okved_desc
         else:
             mainokved = ""
             mainokveddesc = ""
@@ -578,7 +600,8 @@ def BitrixAPI(eruzMembers, current_user_email):
 
         if e.company_email and e.manager_email != current_user_email:
             try:
-                e.company_email2 = "****" + e.company_email[4:]
+                # e.company_email2 = "****" + e.company_email[4:]
+                e.company_email2 = e.company_email
             except:
                 pass
         else:
@@ -586,7 +609,8 @@ def BitrixAPI(eruzMembers, current_user_email):
 
         if e.company_phone and e.manager_email != current_user_email:
             try:
-                e.company_phone2 = e.company_phone[0:7] + "****"
+                # e.company_phone2 = e.company_phone[0:7] + "****"
+                e.company_phone2 = e.company_phone
             except:
                 pass
         else:
@@ -594,7 +618,8 @@ def BitrixAPI(eruzMembers, current_user_email):
 
         if e.company_cell and e.manager_email != current_user_email:
             try:
-                e.company_cell2 = e.company_cell[0:7] + "****"
+                # e.company_cell2 = e.company_cell[0:7] + "****"
+                e.company_cell2 = e.company_cell
             except:
                 pass
         else:
